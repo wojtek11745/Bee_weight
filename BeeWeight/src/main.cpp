@@ -1,6 +1,4 @@
 #include <Arduino.h>
-#include <HX711_ADC.h>
-#include <LiquidCrystal.h> //Dołączenie bilbioteki
 #include "Weight.h"
 
 void setup() {
