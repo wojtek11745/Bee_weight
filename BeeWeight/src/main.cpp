@@ -1,9 +1,10 @@
 #include <Arduino.h>
+#include "Screen.h"
 #include "Weight.h"
 
+
 void setup() {
-  Serial.begin(9600);
-  delay(10);
+
   Serial.println();
   Serial.println("Starting...");
   WeightConfigure();
@@ -11,4 +12,5 @@ void setup() {
 
 void loop() {
   WeightRun();
+  Screen_Weight();
 }

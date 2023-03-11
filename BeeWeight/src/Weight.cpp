@@ -1,12 +1,11 @@
 #include <HX711_ADC.h>
-#include <LiquidCrystal.h> //Dołączenie bilbioteki
 #include "Weight.h"
-LiquidCrystal lcd(2, 3, 4, 5, 6, 7); //Informacja o podłączeniu nowego wyświetlacza
+#include <LiquidCrystal.h>  
 
 const int HX711_dout = 8;
 const int HX711_sck = 9;
 HX711_ADC LoadCell(HX711_dout, HX711_sck);
-
+float i = 0;
 void WeightConfigure(){
 
     LoadCell.begin();
@@ -26,22 +25,13 @@ void WeightConfigure(){
 
 void WeightRun(){
       static boolean newDataReady = 0;
-  const int serialPrintInterval = 5000;  //increase value to slow down serial print activity
+  const int serialPrintInterval = 5000; 
 
-  // check for new data/start next conversion:
   if (LoadCell.update()) newDataReady = true;
 
-  // get smoothed value from the dataset:
   if (newDataReady) {
     if (millis() > serialPrintInterval) {
-      float i = LoadCell.getData();
-      Serial.print(" ");
-      Serial.println(i - 367145 + 11);
-      newDataReady = 0;
-          //lcd.begin(16, 2); //Deklaracja typu
-  lcd.setCursor(0, 0); //Ustawienie kursora
-  lcd.print(i - 367145 + 11); //Wyświetlenie tekstu
-  delay(500);
+      i = LoadCell.getData();
     }
   }
 }
