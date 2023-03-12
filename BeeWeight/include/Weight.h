@@ -1,2 +1,2 @@
 void WeightConfigure();
-void WeightRun();
+float WeightRun(float i);
