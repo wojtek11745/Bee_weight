@@ -1,9 +1,10 @@
 #include <Arduino.h>
 #include "Screen.h"
 #include "Weight.h"
+#include "thermometer.h"
 
-float i = 0;
-
+float value = 0;
+int temperatureCorrection = 0;
 void setup() {
   Serial.begin(9600);
   Serial.println();
@@ -13,7 +14,8 @@ void setup() {
 }
 
 void loop() {
-  WeightRun(i);
-  Screen_Weight(i);
-  
-}
+temperatureCorrection = temperaturaRun();
+
+  value = WeightRun(temperatureCorrection);
+  Screen_Weight(value);
+ }

@@ -4,12 +4,15 @@
 
 const int HX711_dout = 8;
 const int HX711_sck = 9;
+
+int tareValue;
 HX711_ADC LoadCell(HX711_dout, HX711_sck);
 
 void WeightConfigure(){
   Serial.println("Starting WeightConfigure...");
   LoadCell.begin();
   float calibrationValue;
+  SetTareValue(367);//367156
   calibrationValue = 22.39;
   unsigned long stabilizingtime = 2000;
   LoadCell.start(stabilizingtime);
@@ -22,18 +25,24 @@ void WeightConfigure(){
   }
 }
 
-float WeightRun(float i){
+void SetTareValue(int p_tareValue)
+{
+  tareValue = p_tareValue;
+}
+
+int WeightRun(){
   Serial.println("Starting WeightRun...");
   static boolean newDataReady = 0;
   const int serialPrintInterval = 5000; 
-
+  float mass{0};
   if (LoadCell.update()) newDataReady = true;
 
   if (newDataReady) {
     if (millis() > serialPrintInterval) {
-      i = LoadCell.getData();
+      mass = LoadCell.getData();
     }
   }
   Serial.println("WeightRun Complete...");
-  return i;
+
+  return (mass - tareValue);
 }
